@@ -9,11 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class CicdApplication {
 
-    @GetMapping("/")
-    public String welcome(){
-        return "CI/CD practice";
-    }
-
     public static void main(String[] args) {
         SpringApplication.run(CicdApplication.class, args);
     }
