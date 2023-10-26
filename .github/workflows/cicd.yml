@@ -72,11 +72,13 @@ jobs:
           key: ${{ secrets.PRIVATE_KEY }}
 #          envs: GITHUB_SHA
           script: |
-            docker rm $(sudo docker ps -qa)
-            docker pull ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPO }}
-#            docker-compose up -d
-            docker run -p 8080:8080 ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPO }}:latest
+            sudo docker rm -f $(sudo docker ps -qa)
+            sudo docker pull $DOCKER_IMAGE
+            docker create --restart=always -p 8080:8080 --name cicd $DOCKER_IMAGE
+            docker start cicd
             docker image prune -f
+        env:
+          DOCKER_IMAGE: ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPO }}:latest
             
 
 
