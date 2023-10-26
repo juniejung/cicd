@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest #최선버전에서 script를 진행
 
     steps:
-    # 지정한 저장소(현재 repository)에서 코드를 워크플로우 환경으로 가져오도록 하는 git action
+      # 지정한 저장소(현재 repository)에서 코드를 워크플로우 환경으로 가져오도록 하는 git action
       - name: Checkout source
         uses: actions/checkout@v3
       # open jdk 17버전 환경을 세팅
@@ -65,20 +65,21 @@ jobs:
       # 실행 시, docker-compose를 사용합니다.
       - name: Deploy to Server
         uses: appleboy/ssh-action@master
-#        id: deploy
+        #        id: deploy
         with:
           host: ${{ secrets.HOST }}
           username: ubuntu
           key: ${{ secrets.PRIVATE_KEY }}
-#          envs: GITHUB_SHA
+          #          envs: GITHUB_SHA
           script: |
-            sudo docker rm -f $(sudo docker ps -qa)
-            sudo docker pull $DOCKER_IMAGE
-            docker create --restart=always -p 8080:8080 --name cicd $DOCKER_IMAGE
-            docker start cicd
-            docker image prune -f
-        env:
-          DOCKER_IMAGE: ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPO }}:latest
-            
+            CONTAINERS=$(sudo docker ps -qa)
+            if [ ! -z "$CONTAINERS" ]; then
+              sudo docker rm -f $CONTAINERS
+            fi
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPO }}:latest
+            sudo docker create --restart=always -p 8080:8080 --name cicd ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPO }}:latest
+            sudo docker start cicd
+            sudo docker image prune -f
+
 
 
