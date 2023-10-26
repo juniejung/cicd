@@ -74,14 +74,12 @@ jobs:
           script: |
             CONTAINERS=$(sudo docker ps -qa)
             if [ ! -z "$CONTAINERS" ]; then
-            sudo docker rm -f $CONTAINERS
+              sudo docker rm -f $CONTAINERS
             fi
-            sudo docker pull ${DOCKER_IMAGE}
-            sudo docker create --restart=always -p 8080:8080 --name cicd ${DOCKER_IMAGE}
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPO }}:latest
+            sudo docker create --restart=always -p 8080:8080 --name cicd ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPO }}:latest
             sudo docker start cicd
             sudo docker image prune -f
-        env:
-          DOCKER_IMAGE: ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPO }}:latest
-            
+
 
 
