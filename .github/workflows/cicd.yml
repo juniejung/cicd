@@ -72,9 +72,10 @@ jobs:
           key: ${{ secrets.PRIVATE_KEY }}
 #          envs: GITHUB_SHA
           script: |
-            sudo docker rm -f $(docker ps -qa)
-            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPO }}
-            docker-compose up -d
+            docker rm $(sudo docker ps -qa)
+            docker pull ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPO }}
+#            docker-compose up -d
+            docker run -p 8080:8080 ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPO }}:latest
             docker image prune -f
             
 
