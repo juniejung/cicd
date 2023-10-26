@@ -11,34 +11,34 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MemoController {
 
-    private final MemoService memoService;
+//    private final MemoService memoService;
 
     @GetMapping("/")
     public String index(){
         return "index";
     }
 
-    @GetMapping("list")
-    public String list(Model model){
-
-        List<Memo> memos = memoService.findAll();
-        model.addAttribute("memos", memos);
-
-        return "list";
-    }
-
-    @GetMapping("detail/{id}")
-    public String detail(Model model, @PathVariable("id")Long id){
-        Memo memo = memoService.findById(id);
-        model.addAttribute("memo", memo);
-        return "detail";
-    }
-
-    @PostMapping("/posting")
-    public String posting(@RequestParam("title") String title, @RequestParam("content") String content){
-        memoService.createMemo(title, content);
-        return "redirect:/";
-    }
+//    @GetMapping("list")
+//    public String list(Model model){
+//
+//        List<Memo> memos = memoService.findAll();
+//        model.addAttribute("memos", memos);
+//
+//        return "list";
+//    }
+//
+//    @GetMapping("detail/{id}")
+//    public String detail(Model model, @PathVariable("id")Long id){
+//        Memo memo = memoService.findById(id);
+//        model.addAttribute("memo", memo);
+//        return "detail";
+//    }
+//
+//    @PostMapping("/posting")
+//    public String posting(@RequestParam("title") String title, @RequestParam("content") String content){
+//        memoService.createMemo(title, content);
+//        return "redirect:/";
+//    }
 
 
 }
