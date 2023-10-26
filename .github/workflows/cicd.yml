@@ -74,7 +74,8 @@ jobs:
           script: |
             sudo docker rm -f $(sudo docker ps -qa)
             sudo docker pull $DOCKER_IMAGE
-            docker run -d -p 8080:8080 $DOCKER_IMAGE
+            docker create --restart=always -p 8080:8080 --name cicd $DOCKER_IMAGE
+            docker start cicd
             docker image prune -f
         env:
           DOCKER_IMAGE: ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPO }}:latest
