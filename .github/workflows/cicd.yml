@@ -37,6 +37,15 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
+      #test를 위한 mysql설정
+      - name: Start MySQL
+        uses: samin/mysql-action@v1.3
+        with:
+          host port: 3306
+          container port: 3306
+          mysql database: cicd
+          mysql user: ${{ secrets.DATABASE_USER }}
+          mysql password: ${{ secrets.DATABASE_PASSWORD }}
 
       #Github secrets로부터 데이터를 받아 워크플로우 파일을 생성
       - name: Make application.yml
