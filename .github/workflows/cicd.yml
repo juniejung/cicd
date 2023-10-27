@@ -78,7 +78,7 @@ jobs:
             fi
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPO }}:latest
             sudo docker create --restart=always -p 8080:8080 --name cicd ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPO }}:latest
-            sudo docker start cicd
+            docker-compose up -d
             sudo docker image prune -f
 
 
